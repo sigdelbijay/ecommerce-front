@@ -17,6 +17,7 @@ const Shop = () => {
   const [error, setError] = useState(false)
   const [limit, setLimit] = useState(6)
   const [skip, setSkip] = useState(0)
+  const [size, setSize] = useState(0)
   const [filteredResults, setFilteredResults] = useState([])
 
   //load categories and set form data
@@ -32,6 +33,7 @@ const Shop = () => {
 
   useEffect(() => {
     init()
+    loadFilteredResults(skip, limit, myFilters.filters)
   }, [])
 
   const handleFilters = (filters, filterBy) => {
@@ -50,13 +52,35 @@ const Shop = () => {
   const loadFilteredResults = (filters) => {
     getFilteredProducts(skip, limit, filters)
       .then(data => {
+        console.log("data", data)
         if (data.error) {
           setError(data.error)
         } else {
-          setFilteredResults(data)
+          setFilteredResults(data.data)
+          setSize(data.size)
+          setSkip(0)
         }
       })
   }
+
+  const loadMore = () => {
+    let toSkip = skip + limit
+    getFilteredProducts(toSkip, limit, myFilters.filters).then(data => {
+      if (data.error) {
+        setError(data.error)
+      } else {
+        setFilteredResults([...filteredResults, ...data.data])
+        setSize(data.size)
+        setSkip(0)
+      }
+    })
+  }
+
+  const loadMoreButton = () => (
+    size > 0 && size >= limit && (
+      <button onClick={loadMore} className="btn btn-warning mb-5">Load More</button>
+    )
+  )
 
   return (
     <Layout
@@ -81,8 +105,16 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className="col-4">
-          {JSON.stringify(filteredResults)}
+        <div className="col-8">
+          <h2 className="mb-4">Products</h2>
+          <div className="row">
+            {filteredResults.length > 0 && filteredResults.map((product, index) => (
+              <div key={index} className="col-4 mb-3">
+                <Card product={product}/>
+              </div>
+            ))}
+          </div>
+          {loadMoreButton()}
         </div>
       </div>
 

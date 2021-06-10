@@ -1,6 +1,8 @@
 import {Fragment} from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import {Signout, IsAuthenticated} from '../auth'
+import { Signout, IsAuthenticated } from '../auth'
+import {itemTotal} from './cartHelpers'
+
 const isActive = (history, path) => {
   if(history.location.pathname === path) {
     return { color: '#ff9900'}
@@ -18,6 +20,15 @@ const Menu = ({history}) => (
 
       <li className="nav-item">
         <Link className="nav-link" to="/shop" style={isActive(history, '/shop')}>Shop</Link>
+      </li>
+
+      <li className="nav-item">
+        <Link className="nav-link" to="/cart" style={isActive(history, '/shop')}>
+          Cart{" "}
+          <sup>
+            <small className="cart-badge">{itemTotal()}</small>
+          </sup>
+        </Link>
       </li>
 
       <li className="nav-item">
