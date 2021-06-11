@@ -17,7 +17,7 @@ const Cart = () => {
 
   const showItems = items => (
     <div>
-      <h2>Your cart has {`${items.length}`} items</h2>
+      <h2 className="mb-4">Your cart has {`${items.length}`} items</h2>
       <hr />
       {items.map((product, i) => (
         <Card
@@ -33,12 +33,12 @@ const Cart = () => {
     </div>
   )
 
-  const noItemsMessage = () => (
-    <h2>
-      Your cart is empty.
-      <br />
+  const noItemsMessage = () => (   
+    <div>
+      <h2 className="mb-4">Your cart is empty.</h2>
+      <hr />
       <Link to="/shop">Continue Shopping</Link>
-      </h2>
+    </div>
   )
 
   // const totalAmount = (items=[]) => {
@@ -49,16 +49,14 @@ const Cart = () => {
   return (
     <Layout title="Shopping Cart" description="Manage your cart items. Add remove checkout or continue shopping" className="container-fluid">
       <div className="row">
-        <div className="row">
-          <div className="col-6">
-            {items.length > 0 ? showItems(items) : noItemsMessage()} 
-          </div>
-          <div className="col-6">
-            <h2 className="mb-4">Your cart summary</h2>
-            <hr />
-            <Checkout products={items} run={run} setRun={setRun}/>
-            {/* <h2>Total amount: {totalAmount(items)}</h2> */}
-          </div>
+        <div className="col-6">
+          {items.length > 0 ? showItems(items) : noItemsMessage()} 
+        </div>
+        <div className="col-6">
+          <h2 className="mb-4">Your cart summary</h2>
+          <hr />
+          <Checkout products={items} run={run} setRun={setRun}/>
+          {/* <h2>Total amount: {totalAmount(items)}</h2> */}
         </div>
       </div>
     </Layout>

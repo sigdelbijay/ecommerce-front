@@ -70,8 +70,8 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
         <div input="input-group mb-3">
           <div className="input-group-prepend">
             <span className="input-group-text"> Adjust Quantity</span>
+            <input type="number" className="form-control" value={count} onChange={handleChange(product._id)}/>
           </div>
-          <input type="number" className="form-control" value={count} onChange={handleChange(product._id)}/>
         </div>
       </div>
     )
